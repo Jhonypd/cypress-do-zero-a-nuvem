@@ -6,6 +6,8 @@
   "scripts": {
     "cy:open": "cypress open",
     "test": "cypress run",
+    "test:local": "cypress run --spec cypress/e2e/atendimento.cy.js,cypress/e2e/privacy.cy.js",
+    "test:aktian": "cypress run --spec cypress/e2e/aktian-grupos.cy.js",
     "cy:open:mobile": "cypress open --config viewportWidth=410,viewportHeight=860",
     "test:mobile": "cypress run --config viewportWidth=410,viewportHeight=860",
     "test:cloud": "cypress run --record"

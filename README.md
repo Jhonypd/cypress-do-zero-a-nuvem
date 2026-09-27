@@ -2,7 +2,7 @@
 
 Aplicação demonstrativa de atendimento ao cliente com testes automatizados em Cypress. O formulário permite informar dados de contato, selecionar um produto, definir o tipo de atendimento e anexar um arquivo.
 
-O envio é simulado no navegador: não há backend nem persistência dos dados.
+Na aplicação de demonstração em `src/`, o envio é simulado no navegador, sem backend nem persistência. Há também um teste de interface do Aktian, que acessa um ambiente externo e cria e exclui um grupo de usuários real nesse ambiente.
 
 ## Guia interno de Cypress
 
@@ -37,7 +37,7 @@ npm run test:mobile
 
 Após a atualização, versione também o `package-lock.json`.
 
-Abra `src/index.html` no navegador para usar a aplicação. Os testes utilizam o servidor de arquivos do próprio Cypress, sem iniciar um servidor separado.
+Abra `src/index.html` no navegador para usar a aplicação de demonstração. Os testes locais utilizam o servidor de arquivos do próprio Cypress, sem iniciar um servidor separado. O teste do Aktian requer internet e as configurações descritas abaixo.
 
 ## Testes
 
@@ -45,11 +45,17 @@ Abra `src/index.html` no navegador para usar a aplicação. Os testes utilizam o
 | ------------------------ | -------------------------------------------------- |
 | `npm run cy:open`        | Interface interativa, desktop 1280 × 880           |
 | `npm test`               | Headless, desktop 1280 × 880                       |
+| `npm run test:local` | Apenas demonstração e privacidade, sem credenciais |
+| `npm run test:aktian` | Apenas cadastro e exclusão de grupo no Aktian |
 | `npm run cy:open:mobile` | Interface interativa, mobile 410 × 860             |
 | `npm run test:mobile`    | Headless, mobile 410 × 860                         |
 | `npm run test:cloud`     | Headless com gravação no Cypress Cloud configurado |
 
-A suíte cobre preenchimento e validação de campos, mensagens temporárias, seleção de produtos, opções de atendimento, preferências de contato, anexos, política de privacidade e resposta HTTP da aplicação local.
+A suíte local cobre preenchimento e validação de campos, mensagens temporárias, seleção de produtos, opções de atendimento, preferências de contato, anexos e política de privacidade. O teste do Aktian cobre login, cadastro de grupo com menus e acesso mobile, confirmação de sucesso e exclusão do grupo criado.
+
+`npm test`, os comandos mobile e `test:cloud` executam toda a suíte, incluindo o Aktian. Para validar somente a demonstração sem acessar o ambiente externo, use `npm run test:local`.
+
+O teste do Aktian identifica o grupo por um nome único. Se a linha não estiver visível por paginação ou filtro, o teste falha em vez de selecionar outro registro. Se houver uma falha depois da inclusão, o grupo criado pode permanecer no ambiente; a exclusão faz parte do fluxo de sucesso.
 
 Para executar apenas os testes do formulário:
 
@@ -66,26 +72,56 @@ Vídeos ficam em `cypress/videos/` e screenshots de falhas em `cypress/screensho
 | `src/`                          | Páginas, estilos, comportamento e dados de exemplo |
 | `cypress/e2e/atendimento.cy.js` | Testes do formulário                               |
 | `cypress/e2e/privacy.cy.js`     | Teste independente da política de privacidade      |
-| `cypress/e2e/http.cy.js`        | Verificação HTTP da página local                   |
+| `cypress/e2e/aktian-grupos.cy.js` | Cadastro e exclusão de grupo no Aktian |
 | `cypress/fixtures/`             | Arquivos usados nos testes de upload               |
 | `cypress/support/`              | Configuração de suporte e comandos customizados    |
 | `cypress.config.js`             | Configuração dos testes                            |
+| `cypress.env.example.json` | Modelo sem credenciais para configurar o Aktian localmente |
+| `.env.example` | Modelo das variáveis do Cypress Cloud para o terminal |
+| `jsconfig.json` | IntelliSense dos arquivos JavaScript |
 
 O comando `fillMandatoryFieldsAndSubmit` aceita um objeto com `firstName`, `lastName`, `email` e `text`, ou utiliza valores padrão quando chamado sem argumentos.
 
-## Cypress Cloud
+## Configuração de ambientes
+
+### Aktian local
+
+Copie `cypress.env.example.json` para `cypress.env.json` e preencha a URL, o usuário e a senha do ambiente de testes. O Cypress lê esse JSON automaticamente. O teste acessa esses valores com `cy.env()`.
+
+O `cypress.env.json` é ignorado pelo Git. Mantenha os modelos de configuração sem valores reais. Não é necessário repetir os dados do Aktian no `.env`.
+
+### Cypress Cloud no terminal
 
 O Project ID é lido da variável de ambiente `CYPRESS_PROJECT_ID`, sem valor fixo no código.
 
-Para gravar localmente, defina `CYPRESS_PROJECT_ID` com o identificador do projeto e `CYPRESS_RECORD_KEY` com uma chave desse mesmo projeto e execute:
+Para gravar localmente, defina `CYPRESS_PROJECT_ID` com o identificador do projeto e `CYPRESS_RECORD_KEY` com uma chave desse mesmo projeto. Essas duas variáveis são do processo e não devem ser colocadas no `cypress.env.json`.
+
+O projeto não carrega `.env` automaticamente. Se preferir usar esse arquivo, copie `.env.example` para `.env`, preencha os valores e carregue-o no **Git Bash**, na raiz do projeto:
 
 ```sh
+set -a
+source .env
+set +a
 npm run test:cloud
 ```
 
-No GitHub, acesse **Settings → Secrets and variables → Actions**. Na aba **Variables**, cadastre `CYPRESS_PROJECT_ID` com o identificador do projeto. Na aba **Secrets**, cadastre `CYPRESS_RECORD_KEY` com uma chave do mesmo projeto. O workflow `.github/workflows/ci.yml` passa esses valores ao Cypress e grava os testes no Cloud a cada push.
+### GitHub Actions
 
-Os comandos locais `npm test` e `npm run test:mobile` funcionam sem credenciais. Mantenha a Record Key fora dos arquivos versionados.
+Em **Settings → Secrets and variables → Actions**, configure:
+
+| Aba | Nome | Finalidade |
+| --- | --- | --- |
+| Variables | `URL_HTTPS_AKTIAN` | URL do ambiente de testes |
+| Variables | `CYPRESS_PROJECT_ID` | Identificador do projeto no Cloud |
+| Secrets | `USER_AKTIAN` | Usuário de teste |
+| Secrets | `PASSWORD_USER_AKTIAN` | Senha do usuário de teste |
+| Secrets | `CYPRESS_RECORD_KEY` | Chave de gravação do projeto no Cloud |
+
+O workflow `.github/workflows/ci.yml` mapeia os dados do Aktian para variáveis com prefixo `CYPRESS_`, que o Cypress disponibiliza para `cy.env()`. Não é necessário criar `.env` ou `cypress.env.json` no CI.
+
+O workflow executa a suíte completa e grava no Cloud em pushes e pull requests. Pull requests de forks não recebem os secrets e, com a configuração atual, não conseguem executar o fluxo autenticado nem a gravação.
+
+As credenciais do Cloud são necessárias apenas para gravar; as credenciais do Aktian são necessárias sempre que esse teste for executado, mesmo sem gravação.
 
 ## Origem do projeto
 

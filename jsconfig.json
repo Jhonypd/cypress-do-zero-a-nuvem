@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "types": ["cypress"],
+    "allowJs": true,
+    "noEmit": true
+  },
+  "include": ["cypress/**/*.js", "cypress/**/*.d.ts"],
+  "exclude": ["node_modules"]
+}

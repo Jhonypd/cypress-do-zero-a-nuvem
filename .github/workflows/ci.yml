@@ -23,5 +23,8 @@ jobs:
         with:
           command: npm run test:cloud
         env:
+          CYPRESS_URL_HTTPS_AKTIAN: ${{ vars.URL_HTTPS_AKTIAN }}
+          CYPRESS_USER_AKTIAN: ${{ secrets.USER_AKTIAN }}
+          CYPRESS_PASSWORD_USER_AKTIAN: ${{ secrets.PASSWORD_USER_AKTIAN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           CYPRESS_PROJECT_ID: ${{ vars.CYPRESS_PROJECT_ID }}

@@ -148,21 +148,8 @@ A configuração principal do projeto está em:
 cypress.config.js
 ```
 
-Configuração atual:
-
-```js
-const { defineConfig } = require("cypress");
-
-module.exports = defineConfig({
-  viewportHeight: 880,
-  viewportWidth: 1280,
-  e2e: {},
-  video: true,
-  ...(process.env.CYPRESS_PROJECT_ID
-    ? { projectId: process.env.CYPRESS_PROJECT_ID }
-    : {}),
-});
-```
+Consulte a [configuração atual](../cypress.config.js). Os passos de configuração
+local e do GitHub estão centralizados no [README](../README.md#configuração-de-ambientes).
 
 Os principais pontos dessa configuração são:
 
@@ -183,13 +170,14 @@ A parte principal relacionada aos testes ficou organizada desta forma:
 cypress/
 ├── e2e/
 │   ├── atendimento.cy.js
-│   ├── http.cy.js
+│   ├── aktian-grupos.cy.js
 │   └── privacy.cy.js
 ├── fixtures/
 │   └── example.json
 └── support/
     ├── commands.js
-    └── e2e.js
+    ├── e2e.js
+    └── index.d.ts
 ```
 
 ### `cypress/e2e`
@@ -200,7 +188,9 @@ No projeto:
 
 - `atendimento.cy.js`: concentra os principais cenários do formulário;
 - `privacy.cy.js`: testa a página de política de privacidade de forma separada;
-- `http.cy.js`: contém um exemplo de validação HTTP.
+- `aktian-grupos.cy.js`: executa login, cadastro e exclusão de um grupo no Aktian.
+  É um teste de interface contra um ambiente externo, com credenciais próprias.
+  Para executar apenas os testes da demonstração local, use `npm run test:local`.
 
 ### `cypress/fixtures`
 
@@ -689,13 +679,10 @@ A execução com gravação pode ser feita com:
 npm run test:cloud
 ```
 
-O projeto utiliza duas configurações:
-
-- `CYPRESS_PROJECT_ID`: identificador do projeto no Cypress Cloud;
-- `CYPRESS_RECORD_KEY`: chave utilizada para autorizar a gravação das execuções.
-
-No GitHub, o Project ID fica cadastrado como variável do repositório e a
-Record Key como secret, evitando versionar essas informações junto com o código.
+As variáveis do Cloud são distintas das credenciais utilizadas para entrar no
+Aktian. Consulte a [configuração de ambientes no README](../README.md#configuração-de-ambientes)
+para os nomes, locais de cadastro e comandos. Essas instruções ficam em um
+único lugar para acompanhar as mudanças do projeto.
 
 ---
 
