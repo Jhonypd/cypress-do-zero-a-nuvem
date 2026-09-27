@@ -1,0 +1,349 @@
+:root {
+    color-scheme: light;
+    --page: #f5f4fa;
+    --surface: #ffffff;
+    --text: #29253d;
+    --muted: #69647b;
+    --border: #dedbe9;
+    --accent: #6544c0;
+    --accent-hover: #50339f;
+    --soft: #f3effc;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    padding: 48px 20px;
+    background: radial-gradient(ellipse at top, #eae3fa 0, transparent 55%), var(--page);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+body > div:first-child,
+#white-background,
+.success,
+.error {
+    width: 100%;
+    max-width: 680px;
+    margin-inline: auto;
+}
+
+body > div:first-child {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+body > div:first-child > br,
+.field > br {
+    display: none;
+}
+
+#title {
+    margin-bottom: 10px;
+    color: var(--text);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+}
+
+#subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+#white-background {
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: 0 16px 48px rgb(41 37 61 / 7%);
+}
+
+fieldset {
+    min-width: 0;
+    border: 0;
+}
+
+fieldset.group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 20px;
+}
+
+.field {
+    min-width: 0;
+    margin-bottom: 22px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 7px;
+}
+
+strong {
+    font-weight: 600;
+}
+
+.required-mark {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+input,
+select,
+textarea,
+button {
+    font: inherit;
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="number"],
+.field select,
+.field textarea {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fcfbfe;
+    color: var(--text);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+    border-color: #a69abc;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: var(--accent);
+    outline: 3px solid rgb(101 68 192 / 18%);
+    outline-offset: 1px;
+    background: var(--surface);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+select,
+input[type="radio"],
+input[type="checkbox"],
+button {
+    cursor: pointer;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin-right: 7px;
+    accent-color: var(--accent);
+    vertical-align: -3px;
+}
+
+#support-type {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+}
+
+#support-type > label:first-child {
+    flex-basis: 100%;
+    margin-bottom: 0;
+}
+
+#support-type > label:not(:first-child) {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+#check {
+    grid-column: 1 / -1;
+    margin-bottom: 22px;
+    padding: 16px 18px;
+    border: 1px solid #e7e0f5;
+    border-radius: 10px;
+    background: var(--soft);
+}
+
+#check > label:first-child {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+#check label[for] {
+    margin-right: 18px;
+    cursor: pointer;
+}
+
+#file-upload {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px dashed #bdb3d3;
+    border-radius: 9px;
+    background: #fcfbfe;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+#file-upload::file-selector-button {
+    margin-right: 12px;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--soft);
+    color: var(--accent-hover);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 8px;
+    padding: 12px 24px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgb(101 68 192 / 15%);
+    transition: background-color 150ms ease;
+}
+
+.button:hover {
+    background: var(--accent-hover);
+}
+
+button:focus-visible,
+a:focus-visible,
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+}
+
+.success,
+.error {
+    display: none;
+    margin-bottom: 18px;
+    padding: 14px 18px;
+    border: 1px solid;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.success {
+    border-color: #a7d8c2;
+    background: #edf9f2;
+    color: #216345;
+}
+
+.error {
+    border-color: #ecc0c5;
+    background: #fff0f1;
+    color: #a12d3b;
+}
+
+.phone-label-span,
+#cat {
+    display: none;
+}
+
+#privacy {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+#privacy a,
+.privacy a {
+    color: var(--accent-hover);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+#privacy a:hover,
+.privacy a:hover {
+    color: var(--text);
+}
+
+.privacy {
+    font-size: 1rem;
+    line-height: 1.85;
+}
+
+.privacy h2 {
+    margin-bottom: 18px;
+    line-height: 1.3;
+}
+
+.privacy p + p {
+    margin-top: 18px;
+}
+
+.privacy > br {
+    display: none;
+}
+
+.privacy p:last-child {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--accent-hover);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+@media (max-width: 560px) {
+    body {
+        padding: 28px 16px;
+    }
+
+    #white-background {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    fieldset.group {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #check {
+        padding: 14px;
+    }
+
+    #check label[for] {
+        margin-right: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+}

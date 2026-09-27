@@ -1,0 +1,26 @@
+{
+  "name": "central-de-atendimento",
+  "version": "1.0.0",
+  "description": "Aplicação demonstrativa de atendimento ao cliente com testes automatizados em Cypress.",
+  "main": "src/index.html",
+  "scripts": {
+    "cy:open": "cypress open",
+    "test": "cypress run",
+    "cy:open:mobile": "cypress open --config viewportWidth=410,viewportHeight=860",
+    "test:mobile": "cypress run --config viewportWidth=410,viewportHeight=860",
+    "test:cloud": "cypress run --record"
+  },
+  "keywords": [
+    "Cypress",
+    "E2E",
+    "Testes automatizados",
+    "Atendimento ao cliente",
+    "Cypress Cloud"
+  ],
+  "author": "",
+  "license": "MIT",
+  "homepage": "",
+  "devDependencies": {
+    "cypress": "^13.12.0"
+  }
+}
