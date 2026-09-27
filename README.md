@@ -7,7 +7,7 @@ O envio é simulado no navegador: não há backend nem persistência dos dados.
 ## Tecnologias
 
 - HTML, CSS e JavaScript.
-- Cypress 13.12.0 para testes de ponta a ponta e requisições HTTP.
+- Cypress (versão estável) para testes de ponta a ponta e requisições HTTP.
 - Cypress Cloud para gravação opcional das execuções.
 
 ## Instalação
@@ -17,6 +17,19 @@ Pré-requisitos: Node.js 22 e npm. Para instalar as versões fixadas no lockfile
 ```sh
 npm ci
 ```
+
+A dependência do Cypress usa a tag `latest`, enquanto o `package-lock.json`
+registra a versão instalada para manter as execuções reproduzíveis. O `npm ci`
+instala essa versão registrada, sem buscar atualizações. Para atualizar para a
+versão estável mais recente e validar a compatibilidade:
+
+```sh
+npm update cypress
+npm test
+npm run test:mobile
+```
+
+Após a atualização, versione também o `package-lock.json`.
 
 Abra `src/index.html` no navegador para usar a aplicação. Os testes utilizam o servidor de arquivos do próprio Cypress, sem iniciar um servidor separado.
 
