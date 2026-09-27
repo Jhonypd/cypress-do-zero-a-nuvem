@@ -180,10 +180,9 @@ describe("Central de Atendimento ao Cliente", () => {
     cy.contains("a", "Política de Privacidade")
       .invoke("removeAttr", "target")
       .click();
-    cy.contains(
-      "h1",
-      "Central de Atendimento - Política de Privacidade",
-    ).should("be.visible");
+    cy.get('[data-testid="privacy-title"]')
+      .should("be.visible")
+      .and("have.text", "Central de Atendimento - Política de Privacidade");
   });
 
   Cypress._.times(3, (index) => {

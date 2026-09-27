@@ -5,10 +5,14 @@ describe("Política de Privacidade", () => {
       "be.equal",
       "Central de Atendimento ao Cliente - Política de Privacidade",
     );
-    cy.contains(
-      "h1",
-      "Central de Atendimento - Política de Privacidade",
-    ).should("be.visible");
-    cy.contains("p", "Central de Atendimento").should("be.visible");
+    cy.get('[data-testid="privacy-title"]')
+      .should("be.visible")
+      .and("have.text", "Central de Atendimento - Política de Privacidade");
+    cy.get('[data-testid="privacy-content"]')
+      .should("be.visible")
+      .and("contain.text", "os dados preenchidos não são enviados a um servidor nem armazenados.");
+    cy.get('[data-testid="privacy-footer"]')
+      .should("be.visible")
+      .and("have.text", "Central de Atendimento");
   });
 });
