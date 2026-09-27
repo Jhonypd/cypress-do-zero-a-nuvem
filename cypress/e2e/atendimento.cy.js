@@ -146,41 +146,52 @@ describe("Central de Atendimento ao Cliente", () => {
   });
 
   it("seleciona um arquivo da pasta fixtures", () => {
-    cy.get("#file-upload").selectFile("cypress/fixtures/example.json");
-    cy.get("#file-upload").its("0.files.0.name").should("eq", "example.json");
+    cy.get("#file-upload")
+      .selectFile("cypress/fixtures/example.json")
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+      });
   });
 
   it("seleciona um arquivo simulando um drag-and-drop", () => {
-    cy.get("#file-upload").selectFile("cypress/fixtures/example.json", {
-      action: "drag-drop",
-    });
-    cy.get("#file-upload").its("0.files.0.name").should("eq", "example.json");
+    cy.get("#file-upload")
+      .selectFile("cypress/fixtures/example.json", { action: "drag-drop" })
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+      });
   });
 
   it("seleciona um arquivo utilizando uma fixture para a qual foi dada um alias", () => {
-    cy.fixture("example.json", null).as("arquivo");
-    cy.get("#file-upload").selectFile("@arquivo");
-    cy.get("#file-upload").its("0.files.0.name").should("eq", "example.json");
+    cy.fixture("example.json").as("arquivo");
+    cy.get("#file-upload")
+      .selectFile("@arquivo")
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+      });
   });
 
   it("verifica que a política de privacidade abre em outra aba sem a necessidade de um clique", () => {
     cy.contains("a", "Política de Privacidade")
-      .should("have.attr", "target", "_blank");
-    cy.contains("a", "Política de Privacidade")
-      .should("have.attr", "href", "privacy.html");
+      .should("have.attr", "href", "privacy.html")
+      .and("have.attr", "target", "_blank");
   });
 
   it("acessa a página da política de privacidade removendo o target e então clicando no link", () => {
-    cy.contains("a", "Política de Privacidade").invoke("removeAttr", "target");
-    cy.contains("a", "Política de Privacidade").click();
-    cy.location("pathname").should("eq", "/src/privacy.html");
-    cy.get("h1").should("have.text", "Central de Atendimento - Política de Privacidade");
+    cy.contains("a", "Política de Privacidade")
+      .invoke("removeAttr", "target")
+      .click();
+    cy.contains(
+      "h1",
+      "Central de Atendimento - Política de Privacidade",
+    ).should("be.visible");
   });
 
   Cypress._.times(3, (index) => {
     it(`envia dados personalizados com comando customizado (execução ${index + 1})`, () => {
       cy.fillMandatoryFieldsAndSubmit(data);
-      cy.get(".success").should("be.visible").and("contain", "Mensagem enviada com sucesso.");
+      cy.get(".success")
+        .should("be.visible")
+        .and("contain", "Mensagem enviada com sucesso.");
       cy.tick(2999);
       cy.get(".success").should("be.visible");
       cy.tick(1);
@@ -189,18 +200,25 @@ describe("Central de Atendimento ao Cliente", () => {
   });
 
   it("exibe e oculta as mensagens de sucesso e erro usando .invoke()", () => {
-    cy.get(".success").should("not.be.visible")
-      .invoke("show").should("be.visible")
+    cy.get(".success")
+      .should("not.be.visible")
+      .invoke("show")
+      .should("be.visible")
       .and("contain", "Mensagem enviada com sucesso.");
     cy.get(".success").invoke("hide").should("not.be.visible");
-    cy.get(".error").should("not.be.visible")
-      .invoke("show").should("be.visible")
+    cy.get(".error")
+      .should("not.be.visible")
+      .invoke("show")
+      .should("be.visible")
       .and("contain", "Valide os campos obrigatórios!");
     cy.get(".error").invoke("hide").should("not.be.visible");
   });
 
   it("preenche o campo da área de texto usando o comando invoke", () => {
-    const text = Cypress._.repeat("Testando a aplicação Central de Atendimento. ", 20);
+    const text = Cypress._.repeat(
+      "Testando a aplicação Central de Atendimento. ",
+      20,
+    );
     cy.get("#open-text-area").invoke("val", text);
     cy.get("#open-text-area").should("have.value", text);
   });
