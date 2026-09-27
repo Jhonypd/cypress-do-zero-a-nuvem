@@ -158,7 +158,9 @@ module.exports = defineConfig({
   viewportWidth: 1280,
   e2e: {},
   video: true,
-  projectId: "1reb2u",
+  ...(process.env.CYPRESS_PROJECT_ID
+    ? { projectId: process.env.CYPRESS_PROJECT_ID }
+    : {}),
 });
 ```
 
@@ -167,7 +169,9 @@ Os principais pontos dessa configuração são:
 - `viewportWidth` e `viewportHeight`: definem o tamanho padrão do navegador durante os testes;
 - `e2e`: configuração dos testes end-to-end;
 - `video`: habilita a gravação das execuções;
-- `projectId`: identifica o projeto utilizado no Cypress Cloud.
+- `projectId`: identifica o projeto no Cypress Cloud. Neste projeto o valor é
+  lido da variável de ambiente `CYPRESS_PROJECT_ID`, evitando manter o
+  identificador fixo no código.
 
 ---
 
@@ -231,10 +235,7 @@ describe("Central de Atendimento ao Cliente", () => {
   it("Verifica o título da aplicação", () => {
     cy.visit("./src/index.html");
 
-    cy.title().should(
-      "be.equal",
-      "Central de Atendimento ao Cliente"
-    );
+    cy.title().should("be.equal", "Central de Atendimento ao Cliente");
   });
 });
 ```
@@ -415,10 +416,9 @@ cy.get("#file-upload")
 Também testei upload simulando drag-and-drop:
 
 ```js
-cy.get("#file-upload").selectFile(
-  "cypress/fixtures/example.json",
-  { action: "drag-drop" }
-);
+cy.get("#file-upload").selectFile("cypress/fixtures/example.json", {
+  action: "drag-drop",
+});
 ```
 
 ### 9.6 Navegação
@@ -689,15 +689,13 @@ A execução com gravação pode ser feita com:
 npm run test:cloud
 ```
 
-O projeto utiliza a variável:
+O projeto utiliza duas configurações:
 
-```text
-CYPRESS_RECORD_KEY
-```
+- `CYPRESS_PROJECT_ID`: identificador do projeto no Cypress Cloud;
+- `CYPRESS_RECORD_KEY`: chave utilizada para autorizar a gravação das execuções.
 
-Essa chave fica armazenada como secret no GitHub e não deve ser versionada junto com o código.
-
-Com o Cloud é possível acompanhar as execuções feitas pelo CI e consultar os resultados dos testes.
+No GitHub, o Project ID fica cadastrado como variável do repositório e a
+Record Key como secret, evitando versionar essas informações junto com o código.
 
 ---
 

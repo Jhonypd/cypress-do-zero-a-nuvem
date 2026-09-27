@@ -4,6 +4,12 @@ Aplicação demonstrativa de atendimento ao cliente com testes automatizados em 
 
 O envio é simulado no navegador: não há backend nem persistência dos dados.
 
+## Guia interno de Cypress
+
+O material de referência produzido a partir deste estudo está disponível em:
+
+[Guia interno de automação de testes com Cypress](./docs/guia-cypress.md)
+
 ## Tecnologias
 
 - HTML, CSS e JavaScript.
