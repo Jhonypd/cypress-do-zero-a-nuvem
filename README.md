@@ -43,7 +43,10 @@ Abra `src/index.html` no navegador para usar a aplicação de demonstração. Os
 
 O navegador padrão é o Google Chrome, definido uma única vez em
 `cypress.config.js` por `defaultBrowser`. Isso vale para os comandos locais e
-para o CI. Para escolher outro navegador em uma execução, passe `--browser`,
+para o CI. Na inicialização do Chrome, a configuração define `pt-BR` como
+idioma e `pt-BR,pt` como idiomas preferidos, inclusive para o login do Aktian.
+Reabra o navegador do Cypress após alterar essas preferências.
+Para escolher outro navegador em uma execução, passe `--browser`,
 por exemplo: `npm run test:local -- --browser firefox`.
 
 | Comando                  | Execução                                           |
