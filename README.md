@@ -69,13 +69,17 @@ O comando `fillMandatoryFieldsAndSubmit` aceita um objeto com `firstName`, `last
 
 ## Cypress Cloud
 
-Configure as variáveis de ambiente `CYPRESS_PROJECT_ID` e `CYPRESS_RECORD_KEY` com os valores do seu projeto no Cypress Cloud. Depois execute:
+O Project ID `6uaizi` está configurado em `cypress.config.js`. Para usar outro projeto, defina a variável de ambiente `CYPRESS_PROJECT_ID`.
+
+Para gravar localmente, defina `CYPRESS_RECORD_KEY` com uma chave do projeto e execute:
 
 ```sh
 npm run test:cloud
 ```
 
-A gravação é opcional. Os demais comandos funcionam sem credenciais. Mantenha a Record Key fora dos arquivos versionados.
+No GitHub, cadastre `CYPRESS_RECORD_KEY` em **Settings → Secrets and variables → Actions → New repository secret**. O workflow `.github/workflows/ci.yml` grava os testes no Cloud a cada push e precisa desse segredo.
+
+Os comandos locais `npm test` e `npm run test:mobile` funcionam sem credenciais. Mantenha a Record Key fora dos arquivos versionados.
 
 ## Licença
 

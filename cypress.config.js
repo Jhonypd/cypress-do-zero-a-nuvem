@@ -5,7 +5,5 @@ module.exports = defineConfig({
   viewportWidth: 1280,
   e2e: {},
   video: true,
-  ...(process.env.CYPRESS_PROJECT_ID
-    ? { projectId: process.env.CYPRESS_PROJECT_ID }
-    : {}),
+  projectId: process.env.CYPRESS_PROJECT_ID || "6uaizi",
 });
