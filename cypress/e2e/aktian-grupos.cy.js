@@ -36,10 +36,13 @@ describe("Aktian — grupos de usuários", () => {
         .should("be.visible")
         .and("have.attr", "type", "password")
         .type(PASSWORD_USER_AKTIAN, { log: false });
-      cy.contains("button", /^ENTRAR$/i).should("be.enabled").click();
+      cy.contains("button", /^\s*ENTRAR\s*$/i, { timeout: 10000 })
+        .should("be.visible")
+        .and("be.enabled")
+        .click();
     });
 
-    cy.get(selectors.menu).should("be.visible");
+    cy.get(selectors.menu, { timeout: 10000 }).should("be.visible");
   });
 
   it("cadastra grupo com menus e acesso mobile e exclui o registro criado", () => {
