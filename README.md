@@ -18,7 +18,7 @@ O material de referência produzido a partir deste estudo está disponível em:
 
 ## Instalação
 
-Pré-requisitos: Node.js 22 e npm. Para instalar as versões fixadas no lockfile:
+Pré-requisitos: Node.js 22, npm e Google Chrome instalado. Para instalar as versões fixadas no lockfile:
 
 ```sh
 npm ci
@@ -40,6 +40,11 @@ Após a atualização, versione também o `package-lock.json`.
 Abra `src/index.html` no navegador para usar a aplicação de demonstração. Os testes locais utilizam o servidor de arquivos do próprio Cypress, sem iniciar um servidor separado. O teste do Aktian requer internet e as configurações descritas abaixo.
 
 ## Testes
+
+O navegador padrão é o Google Chrome, definido uma única vez em
+`cypress.config.js` por `defaultBrowser`. Isso vale para os comandos locais e
+para o CI. Para escolher outro navegador em uma execução, passe `--browser`,
+por exemplo: `npm run test:local -- --browser firefox`.
 
 | Comando                  | Execução                                           |
 | ------------------------ | -------------------------------------------------- |
